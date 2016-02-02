@@ -1,0 +1,185 @@
+
+<html>
+
+<head>
+    <title>Stories Stylizer</title>
+
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+    <style type="text/css">
+
+        .post-template{
+            display: none;
+        }
+
+        .post{
+        }
+
+        .info {
+            font-size: 12;
+        }
+
+        .sort-text{
+            font-size: 16;
+        }
+
+        body {
+            font-size: 18;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div id="title">freeCodeCamp News</div>
+
+        <div class="container-fluid">
+        
+        <div class='row'>
+            <br>
+            <div class='col-md-1 sort-text'>Sort by</div>
+            <div class="btn-group" data-toggle="buttons">
+              <label class="btn btn-default active" id="lbl-rank">
+                <input type="radio" id="btn-rank" checked> Upvote
+              </label>
+              <label class="btn btn-default" id='lbl-date'>
+                <input type="radio" id="btn-date" autocomplete="off"> Date
+              </label>
+            </div>
+        </div>
+
+            <div class='row'>
+                <br>
+                <p class="col-sm-1">Number</p>       
+                <p class="col-sm-1">Upvote</p>
+                <p class="col-sm-6">Description</p>            
+            </div>
+
+            <div class="post-template">
+                <div class='row'>
+                    <div class='text-center'>
+                        <p class="number col-md-1">unknown</p>       
+                        <p class="rank col-md-1">unknown</p>
+                    </div>
+                    <img class="image col-md-1" width="50">
+                    <div class='row'>
+                        <div class='col-md-8'>
+                            <a class="description image text-left">unknown</a>
+                                <div class='row'>
+                                    <div class='info'>
+                                         <p>submitted on <span class="time">unknown</span> by <span class="author">unknown</span></p>
+<!--                                          <div class="col-md-3">
+                                            <p> posted on <span class="time">unknown</span></p>
+                                         </div>   
+                                         <div class="col-md-4 text-left">
+                                         <p> author <span class="author">unknown</span></p>
+                                         </div>    -->
+                                    </div>
+                                </div>                     
+                        </div>
+                    </div>
+              </div>  
+            </div>
+        </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript">
+
+    storiesData = undefined;
+    currentSort = "upvote";
+
+    storiesData = [{"id":"56a2edee16b0295e3c36713a","headline":"20 things I learned  changing to a career in web development. — Medium","timePosted":1453518318835,"link":"https://medium.com/@patrickbjohnson/20-things-i-learned-changing-to-a-career-in-web-development-820074607369#.ki8nbfp3u","metaDescription":"A quick observation at the last few months as a front-end developer.","description":"undefined",
+        "rank":37,
+        "author":{"picture":"https://avatars.githubusercontent.com/u/7606025?v=3","userId":"55fc3b6f9454f66f44fd49ee","username":"tommygebru"},
+        "image":"https://cdn-images-1.medium.com/max/800/1*gdBlholLj5ZsdnbeGdgpyQ.jpeg","storyLink":"20 things i learned changing to a career in web development medium"},
+        {"id":"56a2edee16b0295e3c36713a","headline":"30 things I learned  changing to a career in web development. — Medium","timePosted":11,"link":"https://medium.com/@patrickbjohnson/20-things-i-learned-changing-to-a-career-in-web-development-820074607369#.ki8nbfp3u","metaDescription":"A quick observation at the last few months as a front-end developer.","description":"undefined",
+        "rank":42,
+        "author":{"picture":"https://avatars.githubusercontent.com/u/7606025?v=3","userId":"55fc3b6f9454f66f44fd49ee","username":"tommygebru"},
+        "image":"https://www.kasandbox.org/programming-images/animals/cat.png","storyLink":"20 things i learned changing to a career in web development medium"}]
+
+    function getStories(){
+
+      // $.getJSON('http://www.freecodecamp.com/news/hot', function(stories){
+
+      //     console.log('call to getStories API');
+      //     console.log(stories);
+
+      //     displayStories(stories);
+
+      //     // store data in global
+      //     storiesData = stories;
+
+      // })
+    }
+
+    function displayStories(stories){
+
+        // Clean the display
+        $('.post').remove();
+
+        // Display all posts
+        for (var i=0; i<stories.length; i++){
+
+            template = $('.post-template').clone();
+            template.attr('class', 'post');
+
+            // Extract data
+            currentStorie = stories[i];
+            if (!currentStorie.author.username){
+                var username = "unknown"
+            } else {
+                var username = currentStorie.author.username
+            }
+            // Display data
+            template.find(".number").text(i+1);
+            template.find(".rank").text(currentStorie.rank);
+
+            template.find(".image").attr('src', currentStorie.image);
+            template.find(".description").text(currentStorie.headline);  
+            template.find(".description").attr('href', currentStorie.link);  
+
+            template.find(".time").text(new Date(currentStorie.timePosted).toGMTString().slice(0, -13));
+            template.find(".author").text(username);
+
+            template.appendTo('body');    
+        }
+    }
+
+    function sortByKey(array, key) {
+        return array.sort(function(a, b) {
+            var x = a[key]; 
+            var y = b[key];
+            return ((x < y) ? 1 : ((x > y) ? -1 : 0));
+        });
+    }
+
+    function sortStories(stories, sortType){
+        if (sortType == 'upvote'){
+            return sortByKey(stories, 'rank');
+        } else if (sortType == 'date'){
+            return sortByKey(stories, 'timePosted');
+        }
+    }
+
+    $("#btn-rank").on('click', function () {
+        $("#lbl-rank").addClass("active");
+        $("#lbl-date").removeClass("active");
+        displayStories(sortStories(storiesData, 'upvote'));
+
+    })
+
+    $("#btn-date").on('click', function () {
+        $("#lbl-date").addClass("active");
+        $("#lbl-rank").removeClass("active");
+        displayStories(sortStories(storiesData, 'date'))
+
+    })
+
+    displayStories(sortStories(storiesData, currentSort));
+
+    </script>
+</body>
+</html>
+
