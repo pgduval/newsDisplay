@@ -23,6 +23,11 @@
             font-size: 16;
         }
 
+        .image { height: 100px; 
+                width: 175px; 
+                overflow: hidden; 
+        }
+
         body {
             font-size: 18;
         }
@@ -52,9 +57,9 @@
 
             <div class='row'>
                 <br>
-                <p class="col-sm-1">Number</p>       
-                <p class="col-sm-1">Upvote</p>
-                <p class="col-sm-6">Description</p>            
+                <p class="col-md-1">Number</p>       
+                <p class="col-md-1">Upvote</p>
+                <p class="col-md-8">Description</p>            
             </div>
 
             <div class="post-template">
@@ -63,19 +68,13 @@
                         <p class="number col-md-1">unknown</p>       
                         <p class="rank col-md-1">unknown</p>
                     </div>
-                    <img class="image col-md-1" width="50">
+                    <img class="image col-md-1">
                     <div class='row'>
                         <div class='col-md-8'>
-                            <a class="description image text-left">unknown</a>
+                            <a class="description">unknown</a>
                                 <div class='row'>
                                     <div class='info'>
-                                         <p>submitted on <span class="time">unknown</span> by <span class="author">unknown</span></p>
-<!--                                          <div class="col-md-3">
-                                            <p> posted on <span class="time">unknown</span></p>
-                                         </div>   
-                                         <div class="col-md-4 text-left">
-                                         <p> author <span class="author">unknown</span></p>
-                                         </div>    -->
+                                         <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;submitted on <span class="time">unknown</span> by <span class="author">unknown</span></p>
                                     </div>
                                 </div>                     
                         </div>
@@ -89,6 +88,7 @@
 
     storiesData = undefined;
     currentSort = "upvote";
+    currentLimit = 10;
 
     storiesData = [{"id":"56a2edee16b0295e3c36713a","headline":"20 things I learned  changing to a career in web development. — Medium","timePosted":1453518318835,"link":"https://medium.com/@patrickbjohnson/20-things-i-learned-changing-to-a-career-in-web-development-820074607369#.ki8nbfp3u","metaDescription":"A quick observation at the last few months as a front-end developer.","description":"undefined",
         "rank":37,
@@ -101,26 +101,26 @@
 
     function getStories(){
 
-      // $.getJSON('http://www.freecodecamp.com/news/hot', function(stories){
+      $.getJSON('http://www.freecodecamp.com/news/hot', function(stories){
 
-      //     console.log('call to getStories API');
-      //     console.log(stories);
+          console.log('call to getStories API');
+          // console.log(stories);
 
-      //     displayStories(stories);
+          // displayStories(stories);
+          displayStories(sortStories(stories, currentSort), currentLimit);
+          // store data in global
+          storiesData = stories;
 
-      //     // store data in global
-      //     storiesData = stories;
-
-      // })
+      })
     }
 
-    function displayStories(stories){
+    function displayStories(stories, limit){
 
         // Clean the display
         $('.post').remove();
 
         // Display all posts
-        for (var i=0; i<stories.length; i++){
+        for (var i=0; i<limit; i++){
 
             template = $('.post-template').clone();
             template.attr('class', 'post');
@@ -166,18 +166,28 @@
     $("#btn-rank").on('click', function () {
         $("#lbl-rank").addClass("active");
         $("#lbl-date").removeClass("active");
-        displayStories(sortStories(storiesData, 'upvote'));
+        currentSort = 'upvote';
+        displayStories(sortStories(storiesData, currentSort), currentLimit);
 
     })
 
     $("#btn-date").on('click', function () {
         $("#lbl-date").addClass("active");
         $("#lbl-rank").removeClass("active");
-        displayStories(sortStories(storiesData, 'date'))
+        currentSort = 'date';
+        displayStories(sortStories(storiesData, currentSort), currentLimit);
 
     })
 
-    displayStories(sortStories(storiesData, currentSort));
+    $("#btn-date").on('click', function () {
+        $("#lbl-date").addClass("active");
+        $("#lbl-rank").removeClass("active");
+        displayStories(sortStories(storiesData, 'date'), currentLimit)
+
+    })
+
+    // getStories();
+    displayStories(sortStories(storiesData, currentSort), currentLimit);
 
     </script>
 </body>
