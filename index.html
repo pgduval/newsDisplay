@@ -16,20 +16,30 @@
         }
 
         .info {
-            font-size: 12;
+            font-size: 18;
         }
 
         .sort-text{
             font-size: 16;
         }
 
-        .image { height: 100px; 
-                width: 175px; 
-                overflow: hidden; 
+        .image { 
+            height: 100px; 
+            width: 160px; 
+            overflow: hidden; 
         }
 
         body {
-            font-size: 18;
+            font-size: 22;
+        }
+
+        #separator {
+            width:100%;
+            height:2px;
+            background-color: lightgray;
+            margin-top:6px;
+            margin-bottom:6px;
+            float:left;
         }
 
     </style>
@@ -63,23 +73,25 @@
             </div>
 
             <div class="post-template">
+            <!-- <div id="separator"></div> -->
                 <div class='row'>
                     <div class='text-center'>
-                        <p class="number col-md-1">unknown</p>       
-                        <p class="rank col-md-1">unknown</p>
+                        <p class="number col-md-1"></p>       
+                        <p class="rank col-md-1"></p>
                     </div>
                     <img class="image col-md-1">
                     <div class='row'>
                         <div class='col-md-8'>
-                            <a class="description">unknown</a>
+                            <a class="description"></a>
                                 <div class='row'>
                                     <div class='info'>
-                                         <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;submitted on <span class="time">unknown</span> by <span class="author">unknown</span></p>
-                                    </div>
+                                         <p>&nbsp;&nbsp;&nbsp;submitted on <span class="time"></span> by <span class="author"></span></p>
+                                    </div>         
                                 </div>                     
                         </div>
                     </div>
               </div>  
+              <div id="separator"></div>
             </div>
         </div>
 
